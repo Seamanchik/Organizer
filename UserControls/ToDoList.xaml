@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Organizer.ToDoList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:userControls="clr-namespace:Organizer.UserControls"
+             mc:Ignorable="d" Name="Item" Background="Transparent">
+    <Grid Margin="30, 10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <fa:ImageAwesome Icon="{Binding Path=Icon, ElementName=Item}" Width="20" Height="20" VerticalAlignment="Top" Foreground="#f1f1f1" Margin="0 3 0 0"/>
+        <StackPanel Grid.Column="1" Margin="10 0">
+            <TextBlock FontSize="16" Foreground="{Binding Path=Color, ElementName=Item}" Text="{Binding Path=Title, ElementName=Item}"/>
+            <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+                <fa:ImageAwesome Grid.Column="2" Icon="{Binding Path=IconBell, ElementName=Item}" Width="12" Height="12" Foreground="{Binding Path=Color, ElementName=Item}"/>
+                <TextBlock FontSize="12" Foreground="{Binding Path=Color, ElementName=Item}" Text="{Binding Path=Time, ElementName=Item}" Margin="8 0 0 0 "/>
+            </StackPanel>
+        </StackPanel>   
+        
+        <ToggleButton x:Name="BtnMenu" Grid.Column="2">
+            <ToggleButton.Template>
+                <ControlTemplate TargetType="ToggleButton">
+                    <fa:ImageAwesome Icon="EllipsisV" Width="16" Height="16" Foreground="#f1f1f1">
+                        <fa:ImageAwesome.Style>
+                            <Style TargetType="fa:ImageAwesome">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="RenderTransform">
+                                            <Setter.Value>
+                                                <ScaleTransform ScaleX="1.2" ScaleY="1.2"></ScaleTransform>              
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </fa:ImageAwesome.Style>
+                    </fa:ImageAwesome>
+                </ControlTemplate>
+            </ToggleButton.Template>
+        </ToggleButton>
+        
+        <Popup IsOpen="{Binding IsChecked , ElementName=BtnMenu}" AllowsTransparency="True" StaysOpen="False" PlacementTarget="{Binding ElementName=BtnMenu}" Placement="Left" VerticalOffset="30" HorizontalOffset="15">
+            <Border Background="White" CornerRadius="5" Padding="0 4">
+                <StackPanel Name="Panel">
+                    <userControls:MenuButton Icon="Check" PreviewMouseLeftButtonDown="ChangeIcon"  Caption="Check"/>
+                    <userControls:MenuButton Icon="BellSlash" PreviewMouseLeftButtonDown="ChangeIconBell" Caption="Mute"/>
+                    <userControls:MenuButton Icon="Pencil" PreviewMouseLeftButtonDown="Edit" Caption="Edit"/>
+                    <userControls:MenuButton Icon="Trash" PreviewMouseLeftButtonDown="RemoveTask" Caption="Delete"/>
+                </StackPanel>
+            </Border>
+            
+        </Popup>
+    </Grid>
+</UserControl>
